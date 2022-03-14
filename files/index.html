@@ -1,0 +1,77 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Random Option Picker</title>
+    <meta name="description" content="A simple HTML5 Random Option Picker.">
+    <meta name="author" content="catervpillar">
+
+    <meta property="og:title" content="Random Option Picker">
+    <meta property="og:type" content="website">
+    <meta property="og:description" content="A simple HTML5 Random Option Picker.">
+    <meta property="og:image" content="image.png">
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body>
+    <div class="header">
+        <div class="header-wrapper">
+            <h1 class="title">Random Option Picker</h1>
+            <span class="material-icons" id="theme-switcher" onclick="changeColorTheme()">brightness_6</span>
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+        <div class="banner">
+            <p>Hi! Welcome to this very ugly <span style="color:#bd2855; font-weight: 700;">Random Option Picker</span>
+            </p>
+        </div>
+
+        <div class="input-div">
+            <input id="input" type="text" placeholder="Type something">
+            <button id="insert-button" onclick="insertThing()">Enter</button>
+        </div>
+
+        <div class="things-wrapper">
+            <div class="things-list">
+                <div class="things-header">
+                    <div style="border-right: 1px solid #737373; padding-right: 10px;">
+                        <h3 style="margin: 5px 0;">Inserted options:</h3>
+                        <p style="margin: 0; font-size: 14px;">(Right click on item to delete it)</p>
+                    </div>
+                    <button id="insert-button" onclick="clearAll()">Delete all</button>
+                </div>
+
+                <div id="things-container"></div>
+            </div>
+
+            <div class="extraction-div">
+                <div class="things-header">
+                    <div style="border-right: 1px solid #737373; padding-right: 10px;">
+                        <h3 style="margin: 5px 0; font-size: 30px;">Result:</h3>
+                    </div>
+                    <button id="pick-one-button" onclick="pickOne()">Pick one!</button>
+                </div>
+
+                <div class="result-container">
+                    <h2 id="result-label">Result will appear here</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./scripts.js"></script>
+</body>
+
+</html>

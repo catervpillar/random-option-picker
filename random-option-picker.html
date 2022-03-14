@@ -1,0 +1,363 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Random Option Picker</title>
+    <meta name="description" content="A simple HTML5 Random Option Picker.">
+    <meta name="author" content="catervpillar">
+
+    <meta property="og:title" content="Random Option Picker">
+    <meta property="og:type" content="website">
+    <meta property="og:description" content="A simple HTML5 Random Option Picker.">
+    <meta property="og:image" content="image.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <style>
+        html {
+            font-family: 'Raleway', sans-serif;
+        }
+
+        body {
+            transition: all 300ms ease-in-out;
+        }
+
+        .header {
+            margin-top: 60px;
+        }
+
+        .header-wrapper {
+            max-width: 1128px;
+            margin: auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .title {
+            font-weight: 800;
+            font-size: 40px;
+        }
+
+        #theme-switcher {
+            font-size: 32px;
+            margin-left: 10px;
+        }
+
+        #theme-switcher:hover {
+            cursor: pointer;
+            color: #91173b;
+        }
+
+        #theme-switcher:active {
+            color: #7a1936;
+        }
+
+        .content-wrapper {
+            max-width: 1128px;
+            margin: auto;
+            padding: 0 20px;
+        }
+
+        .banner>p {
+            font-size: 18px;
+        }
+
+        .input-div {
+            display: flex;
+            align-items: center;
+        }
+
+        input {
+            font-size: 18px;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #737373;
+            font-family: 'Raleway', sans-serif;
+            width: 300px;
+        }
+
+        button {
+            margin-left: 10px;
+            font-size: 18px;
+            padding: 10px;
+            border-radius: 10px;
+            border: none;
+            font-family: 'Raleway', sans-serif;
+            background-color: #bd2855;
+            color: #fff;
+            cursor: pointer;
+            transition: 200ms all ease-in-out;
+        }
+
+        button:hover {
+            background-color: #91173b;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        button:active {
+            background-color: #7a1936;
+            cursor: pointer;
+        }
+
+        .things-header {
+            display: flex;
+            align-items: center;
+        }
+
+        .things-wrapper {
+            margin-top: 30px;
+            display: flex;
+        }
+
+        @media screen and (max-width: 860px) {
+            .things-wrapper {
+                display: block;
+            }
+
+            .things-list,
+            .things-header,
+            .extraction-div {
+                width: 100% !important;
+            }
+
+            .extraction-div {
+                margin-left: 0 !important;
+            }
+
+            #things-container {
+                max-height: 200px !important;
+            }
+        }
+
+        #things-container {
+            margin-top: 20px;
+            display: grid;
+            gap: 10px;
+            overflow: auto;
+            max-height: 400px;
+        }
+
+        .thing-card {
+            border: 1px solid #737373;
+            border-radius: 10px;
+            padding: 0 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: default;
+        }
+
+
+
+        .things-list,
+        .extraction-div {
+            width: 50%;
+            margin-bottom: 20px;
+        }
+
+        .extraction-div {
+            margin-left: 10px;
+        }
+
+        .result-container {
+            margin-top: 23.5px;
+            border: 1px solid #737373;
+            border-radius: 10px;
+            padding: 0 10px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #result-label {
+            text-align: center;
+        }
+
+        .animated-result {
+            animation: mymove 700ms;
+        }
+
+        @keyframes mymove {
+            50% {
+                font-size: 38px;
+            }
+        }
+
+        /* DARK-MODE */
+        .dark-mode {
+            background-color: #000;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="header-wrapper">
+            <h1 class="title">Random Option Picker</h1>
+            <span class="material-icons" id="theme-switcher" onclick="changeColorTheme()">brightness_6</span>
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+        <div class="banner">
+            <p>Hi! Welcome to this very ugly <span style="color:#bd2855; font-weight: 700;">Random Option Picker</span>
+            </p>
+        </div>
+
+        <div class="input-div">
+            <input id="input" type="text" placeholder="Type something">
+            <button id="insert-button" onclick="insertThing()">Enter</button>
+        </div>
+
+        <div class="things-wrapper">
+            <div class="things-list">
+                <div class="things-header">
+                    <div style="border-right: 1px solid #737373; padding-right: 10px;">
+                        <h3 style="margin: 5px 0;">Inserted options:</h3>
+                        <p style="margin: 0; font-size: 14px;">(Right click on item to delete it)</p>
+                    </div>
+                    <button id="insert-button" onclick="clearAll()">Delete all</button>
+                </div>
+
+                <div id="things-container"></div>
+            </div>
+
+            <div class="extraction-div">
+                <div class="things-header">
+                    <div style="border-right: 1px solid #737373; padding-right: 10px;">
+                        <h3 style="margin: 5px 0; font-size: 30px;">Result:</h3>
+                    </div>
+                    <button id="pick-one-button" onclick="pickOne()">Pick one!</button>
+                </div>
+
+                <div class="result-container">
+                    <h2 id="result-label">Result will appear here</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let options = [];
+
+        /**
+         * Returns a random object of this array.
+         * @returns a random object
+         */
+        Array.prototype.random = function () {
+            return this[Math.floor((Math.random() * this.length))];
+        }
+
+        /**
+         * Removes this HTML element from the DOM.
+         */
+        Element.prototype.remove = function () {
+            this.parentElement.removeChild(this);
+        }
+
+        /**
+         * Removes this HTML collection of elements from the DOM.
+         */
+        NodeList.prototype.remove = HTMLCollection.prototype.remove = function () {
+            for (var i = this.length - 1; i >= 0; i--) {
+                if (this[i] && this[i].parentElement) {
+                    this[i].parentElement.removeChild(this[i]);
+                }
+            }
+        }
+
+        /**
+         * HTML encoder functions to prevent XSS from user input values.
+         * @param {*} str the string to encode
+         * @returns the encoded string
+         */
+        function htmlEncode(str) {
+            return String(str).replace(/[^\w. ]/gi, function (c) {
+                return '&#' + c.charCodeAt(0) + ';';
+            });
+        }
+
+        /**
+         * Removes all inserted items.
+         */
+        function clearAll() {
+            options = [];
+            const container = document.getElementById("things-container");
+            container.innerHTML = '';
+        }
+
+        /**
+         * Insert a the typed item in the 'options' array and renders a new card for it.
+         * @returns 
+         */
+        function insertThing() {
+            var input = document.getElementById('input');
+            sanitizedValue = htmlEncode(input.value);
+
+            if (sanitizedValue) {
+                if (options.includes(sanitizedValue)) return;
+
+                options.push(sanitizedValue);
+                const container = document.getElementById("things-container");
+                container.appendChild(getNewCardElement(sanitizedValue));
+                input.value = '';
+            } else return;
+        }
+
+        /**
+         * Returns a new HTML element for a newly inserted item.
+         * @param {*} name the name of the item
+         * @returns the new HTML object
+         */
+        function getNewCardElement(name) {
+            const newCard = document.createElement('div');
+            newCard.id = name;
+            newCard.title = "Right click to delete";
+            newCard.innerHTML = `<p>${name}</p>`;
+            newCard.classList.add('thing-card');
+            newCard.addEventListener('contextmenu', function (ev) {
+                ev.preventDefault();
+                newCard.remove();
+                options.splice(options.indexOf(name), 1);
+                return false;
+            }, false);
+            return newCard;
+        }
+
+        /**
+         * Pick a random item from the 'options' array and displays it in
+         * the apposite HTML label applying a CSS KeyFrames animation
+         */
+        function pickOne() {
+            if (options.length > 0) {
+                const label = document.getElementById('result-label');
+                label.classList.remove('animated-result'); // reset animation
+                void label.offsetWidth;
+                label.innerText = options.random();
+                label.classList.add('animated-result');
+            }
+        }
+
+        /**
+         * Change the color theme for the whole page.
+         */
+        function changeColorTheme() {
+            document.body.classList.toggle('dark-mode');
+        }
+    </script>
+</body>
+
+</html>

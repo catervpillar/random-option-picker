@@ -1,3 +1,8 @@
+window.addEventListener("scroll", reveal);
+
+// To check the scroll position on page load
+reveal();
+
 let options = [];
 
 /**
@@ -42,7 +47,7 @@ function htmlEncode(str) {
  */
 function clearAll() {
     options = [];
-    const container = document.getElementById("things-container");
+    const container = document.getElementById("options-container");
     container.innerHTML = '';
 }
 
@@ -50,7 +55,7 @@ function clearAll() {
  * Insert a the typed item in the 'options' array and renders a new card for it.
  * @returns 
  */
-function insertThing() {
+function insertOption() {
     var input = document.getElementById('input');
     sanitizedValue = htmlEncode(input.value);
 
@@ -58,7 +63,7 @@ function insertThing() {
         if (options.includes(sanitizedValue)) return;
 
         options.push(sanitizedValue);
-        const container = document.getElementById("things-container");
+        const container = document.getElementById("options-container");
         container.appendChild(getNewCardElement(sanitizedValue));
         input.value = '';
     } else return;
@@ -74,7 +79,12 @@ function getNewCardElement(name) {
     newCard.id = name;
     newCard.title = "Right click to delete";
     newCard.innerHTML = `<p>${name}</p>`;
-    newCard.classList.add('thing-card');
+    newCard.classList.add('option-card', 'faded-out');
+
+    requestAnimationFrame(() => {
+        newCard.classList.remove("faded-out")
+    })
+
     newCard.addEventListener('contextmenu', function (ev) {
         ev.preventDefault();
         newCard.remove();
@@ -103,4 +113,21 @@ function pickOne() {
  */
 function changeColorTheme() {
     document.body.classList.toggle('dark-mode');
+}
+
+/**
+ * To animate the entrance of the HTML components.
+ */
+function reveal() {
+    var reveals = document.querySelectorAll(".reveal");
+    for (var i = 0; i < reveals.length; i++) {
+        var windowHeight = window.innerHeight;
+        var elementTop = reveals[i].getBoundingClientRect().top;
+        var elementVisible = 150;
+        if (elementTop < windowHeight - elementVisible) {
+            reveals[i].classList.add("active");
+        } else {
+            reveals[i].classList.remove("active");
+        }
+    }
 }

@@ -6,6 +6,18 @@ body {
     transition: all 300ms ease-in-out;
 }
 
+.reveal{
+    position: relative;
+    transform: translateY(150px);
+    opacity: 0;
+    transition: 1.5s all ease;
+}
+
+.reveal.active{
+    transform: translateY(0);
+    opacity: 1;
+}
+
 .header {
     margin-top: 60px;
 }
@@ -26,6 +38,7 @@ body {
 #theme-switcher {
     font-size: 32px;
     margin-left: 10px;
+    transition: 200ms all ease-in-out;
 }
 
 #theme-switcher:hover {
@@ -85,32 +98,32 @@ button:active {
     cursor: pointer;
 }
 
-.things-header {
+.options-header {
     display: flex;
     align-items: center;
 }
 
-.things-wrapper {
+.options-wrapper {
     margin-top: 30px;
     display: flex;
 }
 
 @media screen and (max-width: 860px) {
-    .things-wrapper {
+    .options-wrapper {
         display: block;
     }
-    .things-list, .things-header, .extraction-div {
+    .options-list, .options-header, .extraction-div {
         width: 100% !important;
     }
     .extraction-div {
         margin-left: 0 !important;
     }
-    #things-container {
+    #options-container {
         max-height: 200px !important;
     }
 }
 
-#things-container {
+#options-container {
     margin-top: 20px;
     display: grid;
     gap: 10px;
@@ -118,7 +131,7 @@ button:active {
     max-height: 400px;
 }
 
-.thing-card {
+.option-card {
     border: 1px solid #737373;
     border-radius: 10px;
     padding: 0 10px;
@@ -126,11 +139,15 @@ button:active {
     align-items: center;
     justify-content: center;
     cursor: default;
+    transition: opacity 500ms;
+    will-change: opacity;
 }
 
+.option-card.faded-out {
+    opacity: 0;
+}
 
-
-.things-list, .extraction-div {
+.options-list, .extraction-div {
     width: 50%;
     margin-bottom: 20px;
 }

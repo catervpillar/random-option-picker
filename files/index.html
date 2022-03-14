@@ -25,14 +25,14 @@
 </head>
 
 <body>
-    <div class="header">
+    <div class="header reveal">
         <div class="header-wrapper">
             <h1 class="title">Random Option Picker</h1>
             <span class="material-icons" id="theme-switcher" onclick="changeColorTheme()">brightness_6</span>
         </div>
     </div>
 
-    <div class="content-wrapper">
+    <div class="content-wrapper reveal">
         <div class="banner">
             <p>Hi! Welcome to this very ugly <span style="color:#bd2855; font-weight: 700;">Random Option Picker</span>
             </p>
@@ -40,12 +40,12 @@
 
         <div class="input-div">
             <input id="input" type="text" placeholder="Type something">
-            <button id="insert-button" onclick="insertThing()">Enter</button>
+            <button id="insert-button" onclick="insertOption()">Enter</button>
         </div>
 
-        <div class="things-wrapper">
-            <div class="things-list">
-                <div class="things-header">
+        <div class="options-wrapper">
+            <div class="options-list">
+                <div class="options-header">
                     <div style="border-right: 1px solid #737373; padding-right: 10px;">
                         <h3 style="margin: 5px 0;">Inserted options:</h3>
                         <p style="margin: 0; font-size: 14px;">(Right click on item to delete it)</p>
@@ -53,11 +53,11 @@
                     <button id="insert-button" onclick="clearAll()">Delete all</button>
                 </div>
 
-                <div id="things-container"></div>
+                <div id="options-container"></div>
             </div>
 
             <div class="extraction-div">
-                <div class="things-header">
+                <div class="options-header">
                     <div style="border-right: 1px solid #737373; padding-right: 10px;">
                         <h3 style="margin: 5px 0; font-size: 30px;">Result:</h3>
                     </div>

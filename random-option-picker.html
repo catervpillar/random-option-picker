@@ -15,13 +15,13 @@
     <meta property="og:description" content="A simple HTML5 Random Option Picker.">
     <meta property="og:image" content="image.png">
 
+    <!-- <link rel="stylesheet" href="styles.css"> -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
     <style>
         html {
             font-family: 'Raleway', sans-serif;
@@ -29,6 +29,18 @@
 
         body {
             transition: all 300ms ease-in-out;
+        }
+
+        .reveal {
+            position: relative;
+            transform: translateY(150px);
+            opacity: 0;
+            transition: 1.5s all ease;
+        }
+
+        .reveal.active {
+            transform: translateY(0);
+            opacity: 1;
         }
 
         .header {
@@ -51,6 +63,7 @@
         #theme-switcher {
             font-size: 32px;
             margin-left: 10px;
+            transition: 200ms all ease-in-out;
         }
 
         #theme-switcher:hover {
@@ -110,23 +123,23 @@
             cursor: pointer;
         }
 
-        .things-header {
+        .options-header {
             display: flex;
             align-items: center;
         }
 
-        .things-wrapper {
+        .options-wrapper {
             margin-top: 30px;
             display: flex;
         }
 
         @media screen and (max-width: 860px) {
-            .things-wrapper {
+            .options-wrapper {
                 display: block;
             }
 
-            .things-list,
-            .things-header,
+            .options-list,
+            .options-header,
             .extraction-div {
                 width: 100% !important;
             }
@@ -135,12 +148,12 @@
                 margin-left: 0 !important;
             }
 
-            #things-container {
+            #options-container {
                 max-height: 200px !important;
             }
         }
 
-        #things-container {
+        #options-container {
             margin-top: 20px;
             display: grid;
             gap: 10px;
@@ -148,7 +161,7 @@
             max-height: 400px;
         }
 
-        .thing-card {
+        .option-card {
             border: 1px solid #737373;
             border-radius: 10px;
             padding: 0 10px;
@@ -156,11 +169,15 @@
             align-items: center;
             justify-content: center;
             cursor: default;
+            transition: opacity 500ms;
+            will-change: opacity;
         }
 
+        .option-card.faded-out {
+            opacity: 0;
+        }
 
-
-        .things-list,
+        .options-list,
         .extraction-div {
             width: 50%;
             margin-bottom: 20px;
@@ -204,14 +221,14 @@
 </head>
 
 <body>
-    <div class="header">
+    <div class="header reveal">
         <div class="header-wrapper">
             <h1 class="title">Random Option Picker</h1>
             <span class="material-icons" id="theme-switcher" onclick="changeColorTheme()">brightness_6</span>
         </div>
     </div>
 
-    <div class="content-wrapper">
+    <div class="content-wrapper reveal">
         <div class="banner">
             <p>Hi! Welcome to this very ugly <span style="color:#bd2855; font-weight: 700;">Random Option Picker</span>
             </p>
@@ -219,12 +236,12 @@
 
         <div class="input-div">
             <input id="input" type="text" placeholder="Type something">
-            <button id="insert-button" onclick="insertThing()">Enter</button>
+            <button id="insert-button" onclick="insertOption()">Enter</button>
         </div>
 
-        <div class="things-wrapper">
-            <div class="things-list">
-                <div class="things-header">
+        <div class="options-wrapper">
+            <div class="options-list">
+                <div class="options-header">
                     <div style="border-right: 1px solid #737373; padding-right: 10px;">
                         <h3 style="margin: 5px 0;">Inserted options:</h3>
                         <p style="margin: 0; font-size: 14px;">(Right click on item to delete it)</p>
@@ -232,11 +249,11 @@
                     <button id="insert-button" onclick="clearAll()">Delete all</button>
                 </div>
 
-                <div id="things-container"></div>
+                <div id="options-container"></div>
             </div>
 
             <div class="extraction-div">
-                <div class="things-header">
+                <div class="options-header">
                     <div style="border-right: 1px solid #737373; padding-right: 10px;">
                         <h3 style="margin: 5px 0; font-size: 30px;">Result:</h3>
                     </div>
@@ -251,6 +268,11 @@
     </div>
 
     <script>
+        window.addEventListener("scroll", reveal);
+
+        // To check the scroll position on page load
+        reveal();
+
         let options = [];
 
         /**
@@ -295,7 +317,7 @@
          */
         function clearAll() {
             options = [];
-            const container = document.getElementById("things-container");
+            const container = document.getElementById("options-container");
             container.innerHTML = '';
         }
 
@@ -303,7 +325,7 @@
          * Insert a the typed item in the 'options' array and renders a new card for it.
          * @returns 
          */
-        function insertThing() {
+        function insertOption() {
             var input = document.getElementById('input');
             sanitizedValue = htmlEncode(input.value);
 
@@ -311,7 +333,7 @@
                 if (options.includes(sanitizedValue)) return;
 
                 options.push(sanitizedValue);
-                const container = document.getElementById("things-container");
+                const container = document.getElementById("options-container");
                 container.appendChild(getNewCardElement(sanitizedValue));
                 input.value = '';
             } else return;
@@ -327,7 +349,12 @@
             newCard.id = name;
             newCard.title = "Right click to delete";
             newCard.innerHTML = `<p>${name}</p>`;
-            newCard.classList.add('thing-card');
+            newCard.classList.add('option-card', 'faded-out');
+
+            requestAnimationFrame(() => {
+                newCard.classList.remove("faded-out")
+            })
+
             newCard.addEventListener('contextmenu', function (ev) {
                 ev.preventDefault();
                 newCard.remove();
@@ -356,6 +383,23 @@
          */
         function changeColorTheme() {
             document.body.classList.toggle('dark-mode');
+        }
+
+        /**
+         * To animate the entrance of the HTML components.
+         */
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                } else {
+                    reveals[i].classList.remove("active");
+                }
+            }
         }
     </script>
 </body>
